@@ -1,152 +1,337 @@
 # 🤖 AI Career Companion
 
-An AI-powered Career Guidance web application built using **React, FastAPI, MongoDB and Python**.
+![React](https://img.shields.io/badge/Frontend-React-61DAFB?logo=react&logoColor=white)
+![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?logo=fastapi&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?logo=mongodb&logoColor=white)
+![Status](https://img.shields.io/badge/Project-Completed-success)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
-It helps students improve their resumes, prepare for interviews and analyze job opportunities using Artificial Intelligence.
+---
+
+# 🌟 AI Career Companion
+
+**AI Career Companion** is a Full Stack AI-powered Career Guidance Web Application developed using **React.js**, **FastAPI**, **Python**, and **MongoDB**.
+
+The application helps students and job seekers improve their resumes, match them with job descriptions, prepare for interviews, and receive AI-powered career guidance.
 
 ---
 
 # 🚀 Features
 
-✅ Secure Login & Registration
-
-✅ AI Resume Analyzer
-
-✅ AI Job Matcher
-
-✅ AI Interview Coach
-
-✅ Dashboard with Sidebar Navigation
-
-✅ Resume Report Download (PDF)
-
-✅ MongoDB Database Integration
+- 🔐 User Authentication (Login & Register)
+- 📄 AI Resume Analyzer
+- 💼 AI Job Matcher
+- 🎤 AI Interview Coach
+- 📊 Resume Score Visualization
+- 📥 Download Resume Report (PDF)
+- 🧠 AI Skill Recommendation
+- 📈 Career Improvement Suggestions
+- ☁ MongoDB Integration
+- ⚡ FastAPI Backend
+- 🎨 Modern Responsive UI
 
 ---
 
-# 🛠 Tech Stack
+# 💻 Tech Stack
 
-### Frontend
+## Frontend
 
 - React.js
 - Vite
 - Axios
-- React Router
+- React Router DOM
 - React Hot Toast
-- Circular Progress Bar
+- React Circular Progressbar
 
-### Backend
+## Backend
 
-- FastAPI
 - Python
+- FastAPI
 - PyMuPDF
 - Passlib
 - Pydantic
 
-### Database
+## Database
 
 - MongoDB
 
----
+## Tools
 
+- VS Code
+- Git
+- GitHub
+- Postman
+
+---
 # 📂 Project Structure
 
+```text
 AI-Career-Companion
-
+│
 ├── backend
-
+│   ├── main.py
+│   ├── analyzer.py
+│   ├── job_matcher.py
+│   ├── interview_coach.py
+│   ├── auth.py
+│   ├── requirements.txt
+│   └── uploads/
+│
 ├── frontend
-
+│   ├── src
+│   ├── public
+│   ├── package.json
+│   └── vite.config.js
+│
 ├── README.md
-
-└── .gitignore
+├── .gitignore
+└── PROJECT_STATUS.md
+```
 
 ---
 
-# ⚙ Installation
+# ⚙️ Installation Guide
 
-## Clone Repository
+## 1️⃣ Clone the Repository
 
 ```bash
 git clone https://github.com/sharmasneha08/AI-Career-Companion.git
 ```
 
-## Backend
+---
+
+## 2️⃣ Go to Project Folder
 
 ```bash
-cd backend
-
-pip install -r requirements.txt
-
-uvicorn main:app --reload
-```
-
-## Frontend
-
-```bash
-cd frontend
-
-npm install
-
-npm run dev
+cd AI-Career-Companion
 ```
 
 ---
 
-# 📸 Modules
+## 3️⃣ Backend Setup
 
-### 📝 Resume Analyzer
+```bash
+cd backend
+```
 
-- Upload Resume
-- AI Resume Score
-- Skills Detection
+Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Run FastAPI
+
+```bash
+uvicorn main:app --reload
+```
+
+Backend will run on:
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+## 4️⃣ Frontend Setup
+
+Open another terminal
+
+```bash
+cd frontend
+```
+
+Install packages
+
+```bash
+npm install
+```
+
+Run React App
+
+```bash
+npm run dev
+```
+
+Frontend will run on:
+
+```
+http://localhost:5173
+```
+
+---
+
+# 📸 Application Modules
+
+## 🔐 Login & Registration
+
+- Secure user authentication
+- MongoDB database integration
+- Password hashing using Passlib
+
+---
+
+## 📄 AI Resume Analyzer
+
+- Upload Resume (PDF)
+- Resume Score
+- Skills Found
 - Missing Skills
+- AI Suggestions
 - Download PDF Report
 
 ---
 
-### 💼 Job Matcher
+## 💼 AI Job Matcher
 
 - Upload Resume
 - Paste Job Description
-- Match Percentage
+- AI Match Percentage
 - Matched Skills
 - Missing Skills
-- AI Recommendation
+- Career Recommendation
 
 ---
 
-### 🎤 Interview Coach
+## 🎤 AI Interview Coach
 
 - AI Generated Questions
 - Answer Evaluation
 - Score
 - Feedback
+- Multiple Questions
+---
+
+# 📷 Project Screenshots
+
+> 📌 Add screenshots of your application inside a folder named **screenshots** in the project root.
+
+Example:
+
+```
+AI-Career-Companion
+│
+├── screenshots
+│   ├── login.png
+│   ├── dashboard.png
+│   ├── resume.png
+│   ├── jobmatch.png
+│   └── interview.png
+```
+
+Then display them like this:
+
+## 🔐 Login Page
+
+![Login](screenshots/login.png)
+
+---
+
+## 🏠 Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+---
+
+## 📄 Resume Analyzer
+
+![Resume](screenshots/resume.png)
+
+---
+
+## 💼 Job Matcher
+
+![Job Match](screenshots/jobmatch.png)
+
+---
+
+## 🎤 Interview Coach
+
+![Interview](screenshots/interview.png)
 
 ---
 
 # 🎯 Future Scope
 
-- Resume Builder
+The following features can be added in future versions:
 
-- AI Career Roadmap
+- 🤖 AI Resume Builder
+- 📧 AI Cover Letter Generator
+- 🌍 Multi-language Support
+- ☁ Cloud Deployment
+- 📈 Career Roadmap Generator
+- 📊 ATS Resume Checker
+- 🎥 Mock Video Interview
+- 💬 AI Career Chatbot
+- 📱 Mobile Application
+- 🔔 Job Notification System
 
-- ATS Resume Checker
+---
 
-- Cover Letter Generator
+# 📊 Project Highlights
 
-- AI Chatbot Career Assistant
+- ✅ Full Stack Web Application
+- ✅ AI Powered Features
+- ✅ FastAPI Backend
+- ✅ React Frontend
+- ✅ MongoDB Database
+- ✅ Responsive User Interface
+- ✅ Resume PDF Generation
+- ✅ Job Matching System
+- ✅ Interview Preparation Module
 
 ---
 
 # 👩‍💻 Developer
 
-**Sneha Sharma**
+## Sneha Sharma
 
-B.Tech Student
+🎓 B.Tech Student
 
-AI Career Companion Project
+💻 Full Stack Developer
+
+🤖 AI & Machine Learning Enthusiast
+
+🌐 Technologies:
+
+- React.js
+- FastAPI
+- Python
+- MongoDB
+- JavaScript
+- HTML
+- CSS
 
 ---
 
-⭐ If you like this project, don't forget to star the repository.
+# ❤️ Acknowledgement
+
+Special thanks to my mentors, teachers, and everyone who supported me during the development of this project.
+
+---
+
+# ⭐ Support
+
+If you found this project useful,
+
+please consider giving it a ⭐ on GitHub.
+
+It really helps and motivates me to build more projects.
+
+---
+
+# 📄 License
+
+This project is developed for educational and learning purposes.
+
+MIT License © 2026 Sneha Sharma
+
+---
+
+# 🚀 Thank You
+
+Thank you for visiting this repository.
+
+If you like this project, don't forget to ⭐ Star the repository.
