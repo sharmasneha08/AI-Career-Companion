@@ -1,100 +1,234 @@
+from groq import Groq
+import random
+import traceback
+import os
+from dotenv import load_dotenv
+# ===========================
+# GROQ CLIENT
+# ===========================
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+api_key = os.getenv("GROQ_API_KEY")
+
+# ===========================
+# GENERATE QUESTIONS
+# ===========================
+
 def generate_questions(role):
 
+    role_lower = role.lower()
 
-    questions = {
+    # ===========================
+    # SELECT INTERVIEWER
+    # ===========================
 
+    if "ias" in role_lower or "civil" in role_lower or "upsc" in role_lower:
 
-        "data analyst":[
+        interviewer = random.choice([
+            "Senior UPSC Interview Board Member",
+            "Former IAS Officer",
+            "UPSC Personality Test Panel"
+        ])
 
-            "Explain your data analysis project",
+    elif "software" in role_lower or "developer" in role_lower or "programmer" in role_lower:
 
-            "How do you handle missing data?",
+        interviewer = random.choice([
+            "Google Senior Software Engineer",
+            "Microsoft Technical Lead",
+            "Amazon Hiring Manager",
+            "Principal Software Architect"
+        ])
 
-            "Difference between SQL JOIN types?"
+    elif "data" in role_lower or "analyst" in role_lower:
 
-        ],
+        interviewer = random.choice([
+            "Senior Data Scientist",
+            "Business Intelligence Manager",
+            "Google Analytics Manager"
+        ])
 
+    elif "machine learning" in role_lower or "ml" in role_lower or "ai" in role_lower:
 
-        "software developer":[
+        interviewer = random.choice([
+            "Senior AI Engineer",
+            "Machine Learning Lead",
+            "AI Research Scientist"
+        ])
 
-            "Explain OOP concepts",
+    elif "doctor" in role_lower:
 
-            "What is REST API?",
+        interviewer = random.choice([
+            "Chief Medical Officer",
+            "Hospital Director",
+            "Senior Surgeon"
+        ])
 
-            "Explain your projects"
+    elif "teacher" in role_lower or "professor" in role_lower:
 
-        ],
+        interviewer = random.choice([
+            "Senior School Principal",
+            "Education Board Member",
+            "University Professor"
+        ])
 
+    elif "bank" in role_lower:
 
-        "ml engineer":[
+        interviewer = random.choice([
+            "Senior SBI Manager",
+            "Bank Recruitment Officer",
+            "Finance HR Manager"
+        ])
 
-            "Explain machine learning workflow",
+    elif "police" in role_lower:
 
-            "Difference between supervised and unsupervised learning",
-
-            "How do you evaluate a model?"
-
-        ]
-
-    }
-
-
-
-    return questions.get(
-
-        role.lower(),
-
-        [
-
-            "Tell me about yourself",
-
-            "Explain your strongest project",
-
-            "What are your technical skills?"
-
-        ]
-
-    )
-
-
-
-
-
-def evaluate_answer(answer):
-
-
-    length = len(answer.split())
-
-
-
-    if length > 50:
-
-        score = 9
-
-        feedback = "Good detailed answer with explanation"
-
-
-    elif length > 20:
-
-        score = 7
-
-        feedback = "Good answer but add more examples"
-
+        interviewer = random.choice([
+            "Senior IPS Officer",
+            "Police Recruitment Board",
+            "Home Ministry Panel"
+        ])
 
     else:
 
-        score = 5
+        interviewer = random.choice([
+            "Experienced Hiring Manager",
+            "Senior HR Manager",
+            "Industry Expert"
+        ])
 
-        feedback = "Answer needs more explanation"
+    # ===========================
+    # RANDOM DIFFICULTY
+    # ===========================
 
+    difficulty = random.choice([
+        "Easy",
+        "Medium",
+        "Hard",
+        "Mixed"
+    ])
 
+    # ===========================
+    # RANDOM INTERVIEW STYLE
+    # ===========================
 
-    return {
+    styles = [
+        "Friendly",
+        "Professional",
+        "Stress Interview",
+        "Technical",
+        "Behavioral"
+    ]
 
+    style = random.choice(styles)
 
-        "score":score,
+    # ===========================
+    # PROMPT
+    # ===========================
 
+    prompt = f"""
+You are acting as a {interviewer}.
 
-        "feedback":feedback
+Interview Style:
+{style}
 
-    }
+Interview Difficulty:
+{difficulty}
+
+Candidate Role:
+{role}
+
+Generate EXACTLY 5 interview questions.
+
+The questions MUST be related ONLY to the role "{role}".
+
+Rules:
+
+• Make every interview different.
+• Don't repeat common questions.
+• 1 HR question.
+• 2 Role-specific technical questions.
+• 1 Project/Experience question.
+• 1 Scenario-based question.
+
+Return ONLY:
+
+1. Question
+2. Question
+3. Question
+4. Question
+5. Question
+"""
+
+    try:
+
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=1.4,
+            top_p=0.95,
+            max_tokens=700
+        )
+
+        text = response.choices[0].message.content
+
+        print("\n========== RAW RESPONSE ==========\n")
+        print(text)
+        print("\n==================================\n")
+
+        questions = []
+
+        for line in text.split("\n"):
+
+            line = line.strip()
+
+            if (
+                len(line) > 2
+                and line[0].isdigit()
+                and "." in line
+            ):
+                question = line.split(".", 1)[1].strip()
+
+                if question:
+                    questions.append(question)
+
+        # Remove duplicate questions
+        questions = list(dict.fromkeys(questions))
+
+        print("Generated Questions Count:", len(questions))
+        print(questions)
+
+        if len(questions) >= 5:
+            return questions[:5]
+
+        # Fill if fewer than 5 questions
+        while len(questions) < 5:
+            questions.append(
+                f"Explain your experience related to {role}."
+            )
+
+        return questions
+
+    except Exception:
+
+        traceback.print_exc()
+
+        return [
+
+            f"Tell me about yourself as a {role}.",
+
+            f"What inspired you to become a {role}?",
+
+            f"What are the biggest challenges in the {role} profession?",
+
+            f"Describe your strongest experience related to {role}.",
+
+            f"Why should we hire you as a {role}?"
+
+        ]

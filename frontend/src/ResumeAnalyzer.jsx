@@ -2,9 +2,14 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import jsPDF from "jspdf";
+import { useTheme } from "./ThemeContext";
+import { colors } from "./theme/theme";
+//import { useTheme } from "./ThemeContext";
+//import { colors } from "./theme/theme";
 
 import "react-circular-progressbar/dist/styles.css";
 import {
+
   CircularProgressbar,
   buildStyles,
 } from "react-circular-progressbar";
@@ -12,9 +17,24 @@ import {
 function ResumeAnalyzer() {
   const navigate = useNavigate();
 
+  // Theme
+  const mode = "dark";
+
+const currentTheme = {
+  bg: "#0f172a",
+  card: "#1e293b",
+  text: "#ffffff",
+  subText: "#94a3b8",
+  border: "#334155",
+};
+  // States
   const [file, setFile] = useState(null);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // ===========================
+  // Resume Analyze
+  // ===========================
 
   const analyze = async () => {
     if (!file) {
@@ -34,6 +54,12 @@ function ResumeAnalyzer() {
       );
 
       setResult(response.data.analysis);
+
+      localStorage.setItem(
+        "resumeScore",
+        response.data.analysis.resume_score
+      );
+
     } catch (error) {
       console.log(error);
 
@@ -42,10 +68,15 @@ function ResumeAnalyzer() {
       } else {
         alert("Server not running");
       }
+
     } finally {
       setLoading(false);
     }
   };
+
+  // ===========================
+  // Download PDF
+  // ===========================
 
   const downloadPDF = () => {
     if (!result) return;
@@ -157,297 +188,300 @@ function ResumeAnalyzer() {
 
     pdf.save("Resume_Report.pdf");
   };
-
   return (
-    <div
-  style={{
-    minHeight: "100vh",
-    background: "#111827",
-    padding: "40px",
-    color: "white",
-  }}
->
-  <h1
-    style={{
-      textAlign: "center",
-      fontSize: "42px",
-      marginBottom: "10px",
-    }}
-  >
-    📄 AI Resume Analyzer
-  </h1>
-
-  <p
-    style={{
-      textAlign: "center",
-      color: "#cbd5e1",
-      fontSize: "18px",
-      marginBottom: "40px",
-    }}
-  >
-    Upload your resume and receive an AI-powered analysis with
-    resume score, detected skills, missing skills and personalized
-    career suggestions.
-  </p>
-
   <div
     style={{
-      maxWidth: "900px",
-      margin: "0 auto",
-      background: "#1f2937",
-      padding: "30px",
-      borderRadius: "20px",
-      border: "1px solid #374151",
-      boxShadow: "0 10px 30px rgba(0,0,0,.35)",
+      minHeight: "100vh",
+      background: currentTheme.bg,
+      color: currentTheme.text,
+      padding: "40px",
+      transition: "0.3s",
     }}
   >
-    <input
-      type="file"
-      accept=".pdf"
-      onChange={(e) => setFile(e.target.files[0])}
-      style={{
-        width: "100%",
-        padding: "15px",
-        borderRadius: "10px",
-        border: "1px solid #374151",
-        background: "#111827",
-        color: "white",
-        fontSize: "16px",
-        marginBottom: "20px",
-      }}
-    />
 
-    <button
-      onClick={analyze}
-      disabled={loading}
+    <h1
       style={{
-        width: "100%",
-        padding: "15px",
-        background: "#2563eb",
-        color: "white",
-        border: "none",
-        borderRadius: "10px",
-        fontSize: "17px",
-        fontWeight: "600",
-        cursor: "pointer",
+        textAlign: "center",
+        fontSize: "42px",
+        marginBottom: "10px",
       }}
     >
-      {loading ? "Analyzing..." : "🚀 Analyze Resume"}
-    </button>
+      📄 AI Resume Analyzer
+    </h1>
 
-    <button
-      onClick={() => navigate("/dashboard")}
+    <p
       style={{
-        width: "100%",
-        marginTop: "15px",
-        padding: "15px",
-        background: "#374151",
-        color: "white",
-        border: "none",
-        borderRadius: "10px",
-        fontSize: "16px",
-        cursor: "pointer",
+        textAlign: "center",
+        color: currentTheme.subText,
+        fontSize: "18px",
+        marginBottom: "40px",
       }}
     >
-      ⬅ Back to Dashboard
-    </button>
-  </div>
+      Upload your resume and receive AI-powered ATS analysis,
+      detected skills, improvement suggestions and a professional report.
+    </p>
 
-  {result && (
     <div
       style={{
         maxWidth: "900px",
-        margin: "40px auto",
-        background: "#1f2937",
+        margin: "0 auto",
+        background: currentTheme.card,
         padding: "35px",
-        borderRadius: "20px",
-        border: "1px solid #374151",
-        boxShadow: "0 10px 30px rgba(0,0,0,.35)",
+        borderRadius: "22px",
+        border: `1px solid ${currentTheme.border}`,
+        boxShadow:
+          mode === "dark"
+            ? "0 10px 35px rgba(0,0,0,.35)"
+            : "0 10px 35px rgba(0,0,0,.08)",
       }}
     >
-      <div
-        style={{
-          width: "180px",
-          height: "180px",
-          margin: "0 auto",
-        }}
-      >
-        <CircularProgressbar
-          value={result.resume_score}
-          text={`${result.resume_score}%`}
-          styles={buildStyles({
-            pathColor: "#22c55e",
-            trailColor: "rgba(255,255,255,.15)",
-            textColor: "#ffffff",
-            textSize: "16px",
-          })}
-        />
-      </div>
 
-      <h2
-        style={{
-          textAlign: "center",
-          marginTop: "20px",
-          marginBottom: "10px",
-        }}
-      >
-        Resume Score
-      </h2>
-
-      <p
-        style={{
-          textAlign: "center",
-          fontSize: "20px",
-          fontWeight: "bold",
-          color:
-            result.resume_score >= 80
-              ? "#22c55e"
-              : result.resume_score >= 60
-              ? "#facc15"
-              : "#ef4444",
-        }}
-      >
-        {result.resume_score >= 80
-          ? "🌟 Excellent Resume"
-          : result.resume_score >= 60
-          ? "👍 Good Resume"
-          : "⚠ Needs Improvement"}
-      </p>
-
-      <hr style={{ margin: "30px 0", borderColor: "#374151" }} />
-
-      <h3 style={{ color: "#22c55e" }}>✅ Skills Found</h3>
-
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "12px",
-          marginTop: "20px",
-          marginBottom: "25px",
-        }}
-      >
-                {result.skills_found.length === 0 ? (
-          <p>No matching skills found.</p>
-        ) : (
-          result.skills_found.map((skill, index) => (
-            <span
-              key={index}
-              style={{
-                background: "#22c55e",
-                color: "white",
-                padding: "10px 18px",
-                borderRadius: "25px",
-                fontWeight: "600",
-              }}
-            >
-              ✔ {skill}
-            </span>
-          ))
-        )}
-      </div>
-
-      <hr
-        style={{
-          margin: "30px 0",
-          borderColor: "#374151",
-        }}
-      />
-
-      <h3
-        style={{
-          color: "#ef4444",
-          marginBottom: "20px",
-        }}
-      >
-        📈 Suggested Skills
-      </h3>
-
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "12px",
-          marginBottom: "30px",
-        }}
-      >
-        {result.missing_skills.length === 0 ? (
-          <p style={{ color: "#22c55e" }}>
-            No suggested skills.
-          </p>
-        ) : (
-          result.missing_skills.map((skill, index) => (
-            <span
-              key={index}
-              style={{
-                background: "#ef4444",
-                color: "white",
-                padding: "10px 18px",
-                borderRadius: "25px",
-                fontWeight: "600",
-              }}
-            >
-              + {skill}
-            </span>
-          ))
-        )}
-      </div>
-
-      <hr
-        style={{
-          margin: "30px 0",
-          borderColor: "#374151",
-        }}
-      />
-
-      <div
-        style={{
-          background: "#111827",
-          border: "1px solid #374151",
-          padding: "25px",
-          borderRadius: "16px",
-        }}
-      >
-        <h3
-          style={{
-            color: "#60a5fa",
-            marginBottom: "15px",
-          }}
-        >
-          💡 AI Career Suggestion
-        </h3>
-
-        <p
-          style={{
-            color: "#e5e7eb",
-            lineHeight: "1.8",
-            fontSize: "16px",
-          }}
-        >
-          {result.suggestion}
-        </p>
-      </div>
-
-      <button
-        onClick={downloadPDF}
+      <input
+        type="file"
+        accept=".pdf"
+        onChange={(e) => setFile(e.target.files[0])}
         style={{
           width: "100%",
-          marginTop: "30px",
           padding: "16px",
+          borderRadius: "12px",
+          border: `1px solid ${currentTheme.border}`,
+          background: currentTheme.bg,
+          color: currentTheme.text,
+          fontSize: "16px",
+          marginBottom: "20px",
+        }}
+      />
+
+      <button
+        onClick={analyze}
+        disabled={loading}
+        style={{
+          width: "100%",
+          padding: "15px",
+          background: "#2563eb",
+          color: "white",
           border: "none",
           borderRadius: "12px",
-          background: "linear-gradient(135deg,#2563eb,#7c3aed)",
-          color: "white",
           fontSize: "17px",
           fontWeight: "600",
           cursor: "pointer",
         }}
       >
-        📄 Download Professional Report
+        {loading ? "Analyzing Resume..." : "🚀 Analyze Resume"}
       </button>
-    </div>
-  )}
 
+      <button
+        onClick={() => navigate("/dashboard")}
+        style={{
+          width: "100%",
+          marginTop: "15px",
+          padding: "15px",
+          background: "#6b7280",
+          color: "white",
+          border: "none",
+          borderRadius: "12px",
+          fontSize: "16px",
+          cursor: "pointer",
+        }}
+      >
+        ⬅ Back to Dashboard
+      </button>
+
+    </div>
+    {result && (
+  <div
+    style={{
+      maxWidth: "900px",
+      margin: "40px auto",
+      background: currentTheme.card,
+      padding: "35px",
+      borderRadius: "22px",
+      border: `1px solid ${currentTheme.border}`,
+      boxShadow:
+        mode === "dark"
+          ? "0 10px 35px rgba(0,0,0,.35)"
+          : "0 10px 35px rgba(0,0,0,.08)",
+    }}
+  >
+
+    <div
+      style={{
+        width: "180px",
+        height: "180px",
+        margin: "0 auto",
+      }}
+    >
+      <CircularProgressbar
+        value={result.resume_score}
+        text={`${result.resume_score}%`}
+        styles={buildStyles({
+          pathColor: "#22c55e",
+          trailColor:
+            mode === "dark"
+              ? "rgba(255,255,255,.15)"
+              : "#e5e7eb",
+          textColor: currentTheme.text,
+          textSize: "16px",
+        })}
+      />
+    </div>
+
+    <h2
+      style={{
+        textAlign: "center",
+        marginTop: "20px",
+      }}
+    >
+      Resume Score
+    </h2>
+
+    <p
+      style={{
+        textAlign: "center",
+        fontSize: "20px",
+        fontWeight: "bold",
+        color:
+          result.resume_score >= 80
+            ? "#22c55e"
+            : result.resume_score >= 60
+            ? "#f59e0b"
+            : "#ef4444",
+      }}
+    >
+      {result.resume_score >= 80
+        ? "🌟 Excellent Resume"
+        : result.resume_score >= 60
+        ? "👍 Good Resume"
+        : "⚠ Needs Improvement"}
+    </p>
+
+    <hr
+      style={{
+        margin: "35px 0",
+        borderColor: currentTheme.border,
+      }}
+    />
+
+    <h2>✅ Skills Found</h2>
+
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "12px",
+        marginTop: "20px",
+      }}
+    >
+      {result.skills_found.length === 0 ? (
+        <p style={{ color: currentTheme.subText }}>
+          No skills detected.
+        </p>
+      ) : (
+        result.skills_found.map((skill, index) => (
+          <span
+            key={index}
+            style={{
+              background: "#22c55e",
+              color: "white",
+              padding: "10px 18px",
+              borderRadius: "25px",
+              fontWeight: "600",
+            }}
+          >
+            ✔ {skill}
+          </span>
+        ))
+      )}
+    </div>
+
+    <hr
+      style={{
+        margin: "35px 0",
+        borderColor: currentTheme.border,
+      }}
+    />
+
+    <h2>📈 Suggested Skills</h2>
+
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "12px",
+        marginTop: "20px",
+      }}
+    >
+      {result.missing_skills.length === 0 ? (
+        <p style={{ color: "#22c55e" }}>
+          No additional skills recommended.
+        </p>
+      ) : (
+        result.missing_skills.map((skill, index) => (
+          <span
+            key={index}
+            style={{
+              background: "#ef4444",
+              color: "white",
+              padding: "10px 18px",
+              borderRadius: "25px",
+            }}
+          >
+            + {skill}
+          </span>
+        ))
+      )}
+    </div>
+
+    <hr
+      style={{
+        margin: "35px 0",
+        borderColor: currentTheme.border,
+      }}
+    />
+
+    <div
+      style={{
+        background: currentTheme.bg,
+        border: `1px solid ${currentTheme.border}`,
+        padding: "25px",
+        borderRadius: "16px",
+      }}
+    >
+      <h2 style={{ color: "#2563eb" }}>
+        💡 AI Career Suggestion
+      </h2>
+
+      <p
+        style={{
+          color: currentTheme.text,
+          lineHeight: "1.8",
+        }}
+      >
+        {result.suggestion}
+      </p>
+    </div>
+
+    <button
+      onClick={downloadPDF}
+      style={{
+        width: "100%",
+        marginTop: "30px",
+        padding: "16px",
+        border: "none",
+        borderRadius: "12px",
+        background:
+          "linear-gradient(135deg,#2563eb,#7c3aed)",
+        color: "white",
+        fontSize: "17px",
+        fontWeight: "600",
+        cursor: "pointer",
+      }}
+    >
+      📄 Download Professional Report
+    </button>
+
+  </div>
+)}
 </div>
 );
 }

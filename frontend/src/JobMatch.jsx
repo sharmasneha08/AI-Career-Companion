@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import "react-circular-progressbar/dist/styles.css";
 import {
   CircularProgressbar,
@@ -30,19 +29,28 @@ function JobMatch() {
       setLoading(true);
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/match_job",
-        formData
-      );
+  "http://127.0.0.1:8000/match_job",
+  formData
+);
 
-      setResult(response.data);
+console.log(response.data);
+
+setResult(response.data);
+
+localStorage.setItem(
+  "jobMatchScore",
+  response.data.match_percentage
+);
+
     } catch (error) {
       console.log(error);
 
       if (error.response) {
         alert(error.response.data.detail);
       } else {
-        alert("Server not running");
+        alert("Server not running.");
       }
+
     } finally {
       setLoading(false);
     }
@@ -173,7 +181,11 @@ function JobMatch() {
             />
           </div>
 
-          <h2 style={{ textAlign: "center" }}>
+          <h2
+            style={{
+              textAlign: "center",
+            }}
+          >
             Job Match Score
           </h2>
 
@@ -181,24 +193,24 @@ function JobMatch() {
 
           <h3>✅ Matched Skills</h3>
 
-          {result.matched_skills.length === 0 ? (
-            <p>No matching skills found.</p>
-          ) : (
+          {result.matched_skills?.length ? (
             result.matched_skills.map((skill, index) => (
               <p key={index}>✔ {skill}</p>
             ))
+          ) : (
+            <p>No matching skills found.</p>
           )}
 
           <hr />
 
           <h3>❌ Missing Skills</h3>
 
-          {result.missing_skills.length === 0 ? (
-            <p>Great! No missing skills.</p>
-          ) : (
+          {result.missing_skills?.length ? (
             result.missing_skills.map((skill, index) => (
               <p key={index}>➕ {skill}</p>
             ))
+          ) : (
+            <p>Great! No missing skills.</p>
           )}
 
           <hr />

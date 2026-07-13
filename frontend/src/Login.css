@@ -1,0 +1,126 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+.login-page{
+    min-height:100vh;
+    background:#0B1120;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+.login-card{
+    width:100%;
+    max-width:430px;
+    background:#111827;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:24px;
+    padding:45px;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+}
+
+.login-logo{
+    width:60px;
+    height:60px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#2563EB,#7C3AED);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+    font-size:28px;
+    margin:auto;
+}
+
+.login-title{
+    margin-top:25px;
+    text-align:center;
+    color:white;
+    font-size:32px;
+    font-weight:700;
+}
+
+.login-subtitle{
+    margin-top:12px;
+    text-align:center;
+    color:#94A3B8;
+    font-size:15px;
+    line-height:24px;
+}
+
+.login-form{
+    margin-top:35px;
+}
+
+.input-group{
+    margin-bottom:18px;
+}
+
+.input-group label{
+    display:block;
+    color:#CBD5E1;
+    margin-bottom:8px;
+    font-size:14px;
+}
+
+.input-group input{
+    width:100%;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid #334155;
+    background:#0F172A;
+    color:white;
+    font-size:15px;
+    transition:.3s;
+}
+
+.input-group input:focus{
+    border-color:#2563EB;
+}
+
+.primary-btn{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#2563EB,#7C3AED);
+    color:white;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.primary-btn:hover{
+    transform:translateY(-2px);
+}
+
+.switch-text{
+    margin-top:25px;
+    text-align:center;
+    color:#94A3B8;
+}
+
+.switch-btn{
+    margin-top:15px;
+    width:100%;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid #334155;
+    background:transparent;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.switch-btn:hover{
+    background:#1E293B;
+}

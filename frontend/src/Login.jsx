@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
@@ -61,176 +62,90 @@ function Login() {
   };
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background:
-          "linear-gradient(135deg,#0f172a,#1e293b,#111827)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "30px",
-      }}
-    >
-      <div
-        style={{
-          width: "470px",
-          background: "#1f2937",
-          padding: "40px",
-          borderRadius: "22px",
-          border: "1px solid #374151",
-          boxShadow: "0 20px 60px rgba(0,0,0,.45)",
-        }}
-      >
-        <h1
-          style={{
-            textAlign: "center",
-            color: "white",
-            fontSize: "34px",
-            marginBottom: "8px",
-          }}
-        >
-          🚀 AI Career Companion
+    <div className="login-page">
+      <div className="login-card">
+
+        <div className="login-logo">
+          🤖
+        </div>
+
+        <h1 className="login-title">
+          AI Career Companion
         </h1>
 
-        <p
-          style={{
-            textAlign: "center",
-            color: "#cbd5e1",
-            marginBottom: "35px",
-            fontSize: "16px",
-          }}
-        >
+        <p className="login-subtitle">
           {type === "login"
-            ? "Welcome Back! Login to continue."
-            : "Create your AI Career account."}
+            ? "Welcome back! Login to continue your AI career journey."
+            : "Create your account to get started."}
         </p>
 
-        {type === "register" && (
-          <input
-            type="text"
-            placeholder="👤 Full Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            style={inputStyle}
-          />
-        )}
+        <div className="login-form">
+                    {type === "register" && (
+            <div className="input-group">
+              <label>Full Name</label>
+              <input
+                type="text"
+                placeholder="Enter your full name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+          )}
 
-        <input
-          type="email"
-          placeholder="📧 Email Address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={inputStyle}
-        />
+          <div className="input-group">
+            <label>Email Address</label>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
 
-        <input
-          type="password"
-          placeholder="🔒 Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={inputStyle}
-        />
-                <button
-          onClick={submit}
-          style={{
-            width: "100%",
-            padding: "15px",
-            border: "none",
-            borderRadius: "12px",
-            background: "linear-gradient(135deg,#2563eb,#7c3aed)",
-            color: "white",
-            fontSize: "17px",
-            fontWeight: "600",
-            cursor: "pointer",
-            transition: "0.3s",
-          }}
-        >
-          {type === "login"
-            ? "🚀 Login"
-            : " ✨ Create Account"}
-        </button>
+          <div className="input-group">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
 
-        <p
-          style={{
-            textAlign: "center",
-            color: "#cbd5e1",
-            marginTop: "25px",
-            marginBottom: "15px",
-          }}
-        >
-          {type === "login"
-            ? "Don't have an account?"
-            : "Already have an account?"}
-        </p>
+          <button
+            className="primary-btn"
+            onClick={submit}
+          >
+            {type === "login"
+              ? "Login"
+              : "Create Account"}
+          </button>
 
-        <button
-          onClick={() =>
-            setType(
-              type === "login"
-                ? "register"
-                : "login"
-            )
-          }
-          style={{
-            width: "100%",
-            padding: "15px",
-            border: "1px solid #475569",
-            borderRadius: "12px",
-            background: "#374151",
-            color: "white",
-            fontSize: "16px",
-            cursor: "pointer",
-            transition: "0.3s",
-          }}
-        >
-          {type === "login"
-            ? "Create New Account"
-            : "Back to Login"}
-        </button>
+          <p className="switch-text">
+            {type === "login"
+              ? "Don't have an account?"
+              : "Already have an account?"}
+          </p>
+
+          <button
+            className="switch-btn"
+            onClick={() =>
+              setType(
+                type === "login"
+                  ? "register"
+                  : "login"
+              )
+            }
+          >
+            {type === "login"
+              ? "Create New Account"
+              : "Back to Login"}
+          </button>
+                  </div>
 
       </div>
     </div>
   );
 }
-
-const inputStyle = {
-  width: "100%",
-  padding: "15px",
-  marginBottom: "18px",
-  borderRadius: "12px",
-  border: "1px solid #374151",
-  background: "#111827",
-  color: "white",
-  fontSize: "16px",
-  outline: "none",
-  boxSizing: "border-box",
-};
-const primaryButton = {
-  width: "100%",
-  padding: "15px",
-  border: "none",
-  borderRadius: "12px",
-  background: "linear-gradient(135deg,#2563eb,#7c3aed)",
-  color: "#fff",
-  fontSize: "17px",
-  fontWeight: "600",
-  cursor: "pointer",
-  transition: "all .3s ease",
-  marginTop: "5px",
-};
-
-const secondaryButton = {
-  width: "100%",
-  padding: "15px",
-  marginTop: "12px",
-  border: "1px solid #475569",
-  borderRadius: "12px",
-  background: "#374151",
-  color: "#fff",
-  fontSize: "16px",
-  cursor: "pointer",
-  transition: "all .3s ease",
-};
 
 export default Login;
