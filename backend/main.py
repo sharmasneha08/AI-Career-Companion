@@ -57,8 +57,11 @@ app.add_middleware(
 # ===========================
 # DATABASE
 # ===========================
+import os
 
-client = MongoClient("mongodb+srv://careeradmin:Career123@snehasharm.h9olozl.mongodb.net/?appName=Snehasharm")
+client = MongoClient(
+    os.getenv("mongodb+srv://careeradmin:Career123@snehasharm.h9olozl.mongodb.net/?appName=Snehasharm")
+)
 
 db = client["career_companion"]
 
