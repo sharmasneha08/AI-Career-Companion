@@ -130,7 +130,7 @@ uvicorn main:app --reload
 Backend will run on:
 
 ```
-http://127.0.0.1:8000
+http://10.230.56.117:8000
 ```
 
 ---

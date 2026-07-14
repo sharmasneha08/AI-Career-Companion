@@ -58,7 +58,7 @@ app.add_middleware(
 # DATABASE
 # ===========================
 
-client = MongoClient("mongodb://localhost:27017/")
+client = MongoClient("mongodb+srv://careeradmin:Career123@snehasharm.h9olozl.mongodb.net/?appName=Snehasharm")
 
 db = client["career_companion"]
 
@@ -539,5 +539,5 @@ def ai_career_assistant(
 
 print("=" * 60)
 print("🚀 AI Career Companion Backend Started Successfully")
-print("🌐 API Running on http://127.0.0.1:8000")
+print("🌐 API Running on http://10.230.56.117:8000")
 print("=" * 60)

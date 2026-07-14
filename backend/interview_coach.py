@@ -1,18 +1,20 @@
 from groq import Groq
 import random
 import traceback
-import os
-from dotenv import load_dotenv
+
 # ===========================
 # GROQ CLIENT
 # ===========================
-
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
 api_key = os.getenv("GROQ_API_KEY")
+client = Groq(
+    api_key=api_key
 
+)
 # ===========================
 # GENERATE QUESTIONS
 # ===========================
