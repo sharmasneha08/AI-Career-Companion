@@ -166,30 +166,25 @@ def register(user: User):
     })
 
     if existing:
-
         raise HTTPException(
             status_code=400,
             detail="Email already registered."
         )
 
+    print("Password received:", user.password)
+    print("Password length:", len(user.password))
+
     hashed_password = pwd_context.hash(user.password)
 
     users.insert_one({
-
         "name": user.name,
-
         "email": user.email,
-
         "password": hashed_password
-
     })
 
     return {
-
         "success": True,
-
         "message": "Registration Successful"
-
     }
 
 # ===========================
