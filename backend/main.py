@@ -54,21 +54,28 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# DATABASE
+# ===========================
 # ===========================
 # DATABASE
 # ===========================
-import os
 
-client = MongoClient(
-    os.getenv("mongodb+srv://careeradmin:Career123@snehasharm.h9olozl.mongodb.net/?appName=Snehasharm")
-)
+import os
+from pymongo import MongoClient
+
+MONGODB_URI = os.getenv("MONGODB_URI")
+
+if not MONGODB_URI:
+    raise Exception("MONGODB_URI environment variable is not set.")
+
+client = MongoClient(MONGODB_URI)
 
 db = client["career_companion"]
 
 users = db["users"]
 
 interview_history = db["interview_history"]
-
 # ===========================
 # PASSWORD HASHING
 # ===========================
@@ -542,5 +549,5 @@ def ai_career_assistant(
 
 print("=" * 60)
 print("🚀 AI Career Companion Backend Started Successfully")
-print("🌐 API Running on http://10.230.56.117:8000")
+print("🌐 API Running on https://ai-career-companion-bh9h.onrender.com")
 print("=" * 60)
