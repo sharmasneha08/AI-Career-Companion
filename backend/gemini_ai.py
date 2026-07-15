@@ -10,6 +10,8 @@ import os
 load_dotenv()
 
 api_key = os.getenv("GROQ_API_KEY")
+print("GROQ API KEY FOUND:", api_key is not None)
+print("GROQ API KEY STARTS WITH:", api_key[:10] if api_key else "NOT FOUND")
 client = Groq(
     api_key=api_key
 )
@@ -37,7 +39,6 @@ def clean_json(text):
 # =====================================================
 # EVALUATE SINGLE ANSWER
 # =====================================================
-
 def evaluate_answer(question, answer):
 
     prompt = f"""
@@ -85,32 +86,25 @@ JSON format:
     try:
 
         response = client.chat.completions.create(
-
             model="llama-3.3-70b-versatile",
-
             messages=[
                 {
                     "role": "system",
-                    "content": (
-                        "You are an HR interviewer. "
-                        "Always return ONLY valid JSON."
-                    )
+                    "content": "You are an HR interviewer. Always return ONLY valid JSON."
                 },
                 {
                     "role": "user",
                     "content": prompt
                 }
             ],
-
             temperature=0.2
-
         )
 
         text = response.choices[0].message.content
 
-        print("\n================ RAW GROQ RESPONSE ================\n")
+        print("\n========== RAW GROQ RESPONSE ==========\n")
         print(text)
-        print("\n===================================================\n")
+        print("\n=======================================\n")
 
         text = clean_json(text)
 
@@ -120,35 +114,23 @@ JSON format:
 
     except Exception as e:
 
-        print("Groq Error:", e)
+        print("Groq Error:", repr(e))
 
         return {
-
             "overall_score": 0,
-
             "communication": 0,
-
             "confidence": 0,
-
             "grammar": 0,
-
             "technical": 0,
-
             "strengths": [
-
                 "Unable to evaluate answer."
-
             ],
-
             "improvements": [
-
                 "Please try again."
-
             ],
-
             "feedback": str(e)
-
         }
+
     # =====================================================
 # FINAL INTERVIEW REPORT
 # =====================================================
@@ -282,68 +264,34 @@ def career_assistant(question):
 You are an Expert AI Career Coach.
 
 You help students and professionals with:
-
 • Resume Improvement
 • ATS Resume Optimization
 • Interview Preparation
-• HR Interview Questions
-• Technical Interview Questions
 • Career Roadmaps
-• AI & Machine Learning
-• Web Development
-• Data Science
-• Software Development
-• Programming
-• Higher Studies
 • Job Search
-• Freelancing
-• Salary Guidance
-• Soft Skills
-• Startup Advice
-
-Your answers must be:
-
-- Professional
-- Practical
-- Clear
-- Detailed
-- Easy to understand
-- Motivational
 
 User Question:
-
 {question}
 """
 
     try:
-
         response = client.chat.completions.create(
-
             model="llama-3.3-70b-versatile",
-
             messages=[
                 {
                     "role": "system",
-                    "content":
-                    "You are an expert AI Career Coach."
+                    "content": "You are an expert AI Career Coach."
                 },
                 {
                     "role": "user",
                     "content": prompt
                 }
             ],
-
             temperature=0.4
-
         )
 
         return response.choices[0].message.content.strip()
 
     except Exception as e:
-
-        print("Career Assistant Error:", e)
-
-        return (
-            "Sorry, I couldn't process your request right now. "
-            "Please try again later."
-        )
+        print("Career Assistant Error:", repr(e))
+        return str(e)

@@ -60,26 +60,17 @@ app.add_middleware(
 # ===========================
 # DATABASE
 # ===========================
-
-import os
 from pymongo import MongoClient
 from dotenv import load_dotenv
+import os
 
 load_dotenv()
 
 MONGODB_URI = os.getenv("MONGODB_URI")
+from database import users_collection
 
-if not MONGODB_URI:
-    raise Exception("MONGODB_URI environment variable is not set.")
-
-client = MongoClient(MONGODB_URI)
-
-db = client["career_companion"]
-
-users = db["users"]
-
-interview_history = db["interview_history"]
-# ===========================
+users = users_collection
+#===========================
 # PASSWORD HASHING
 # ===========================
 
