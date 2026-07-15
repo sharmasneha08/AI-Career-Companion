@@ -7,9 +7,9 @@ import { colors } from "./theme/theme";
 
 function CareerAssistant() {
 
-  const navigate = useNavigate();
+ const navigate = useNavigate();
 
-  const { theme } = useTheme();
+const { theme } = useTheme();
 
   const currentTheme = colors[theme];
 
@@ -50,7 +50,7 @@ function CareerAssistant() {
 
       const response = await axios.post(
 
-        "http://127.0.0.1:8000/career-assistant",
+        "https://ai-career-companion-rxak.onrender.com/career-assistant",
 
         {
 

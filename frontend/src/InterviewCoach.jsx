@@ -27,7 +27,7 @@ function InterviewCoach() {
       setLoading(true);
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/generate_questions",
+       "https://ai-career-companion-rxak.onrender.com/generate_questions",
         formData
       );
 
@@ -61,7 +61,7 @@ function InterviewCoach() {
       setLoading(true);
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/evaluate_answer",
+      "https://ai-career-companion-rxak.onrender.com/evaluate_answer",
         formData
       );
 

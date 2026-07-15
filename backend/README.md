@@ -130,7 +130,7 @@ uvicorn main:app --reload
 Backend will run on:
 
 ```
-https://ai-career-companion-bh9h.onrender.com
+https://ai-career-companion-rxak.onrender.com
 ```
 
 ---

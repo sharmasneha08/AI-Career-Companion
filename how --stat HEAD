@@ -1,0 +1,35 @@
+[33mcommit 49b7e733e30288c8f26c09baa77ce398e1708d6b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Sneha Sharma <your_github_email@example.com>
+Date:   Mon Jul 13 12:27:10 2026 +0530
+
+    Added AI mock interview, career assistant, face detection, and dashboard improvements
+
+ .gitignore                                         |   24 [32m+[m[31m-[m
+ backend/PROJECT_STATUS.md                          |   54 [32m+[m
+ backend/README.md                                  |  337 [32m++++[m
+ backend/gemini_ai.py                               |  349 [32m++++[m
+ backend/interview.py                               |    0
+ backend/interview_coach.py                         |  214 [32m++[m[31m-[m
+ backend/main.py                                    |  393 [32m++++[m[31m-[m
+ frontend/.gitignore                                |   24 [31m-[m
+ frontend/images                                    |    9 [31m-[m
+ frontend/package-lock.json                         |  808 [32m+++++++[m[31m--[m
+ frontend/package.json                              |    8 [32m+[m[31m-[m
+ .../public/models/face_expression_model-shard1.txt |    2 [32m+[m
+ .../face_expression_model-weights_manifest.json    |    1 [32m+[m
+ .../face_landmark_68_model-weights_manifest.json   |    1 [32m+[m
+ .../tiny_face_detector_model-weights_manifest.json |    1 [32m+[m
+ frontend/src/App.jsx                               |   56 [32m+[m[31m-[m
+ frontend/src/CareerAssistant.jsx                   |  358 [32m++++[m
+ frontend/src/Dashboard.jsx                         | 1710 [32m+++++++++++++[m[31m-------[m
+ frontend/src/JobMatch.jsx                          |   38 [32m+[m[31m-[m
+ frontend/src/Login.css                             |  126 [32m++[m
+ frontend/src/Login.jsx                             |  237 [32m+[m[31m--[m
+ frontend/src/MockInterview.css                     |  230 [32m+++[m
+ frontend/src/MockInterview.jsx                     | 1194 [32m++++++++++++++[m
+ frontend/src/ResumeAnalyzer.jsx                    |  532 [32m+++[m[31m---[m
+ frontend/src/ThemeContext.jsx                      |   32 [32m+[m
+ frontend/src/context/ThemeContext.jsx              |   29 [32m+[m
+ frontend/src/main.jsx                              |   41 [32m+[m[31m-[m
+ frontend/src/theme/theme.js                        |   25 [32m+[m
+ 28 files changed, 5488 insertions(+), 1345 deletions(-)

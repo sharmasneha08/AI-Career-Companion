@@ -49,7 +49,7 @@ const currentTheme = {
       setLoading(true);
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/upload_resume",
+        "https://ai-career-companion-rxak.onrender.com/upload_resume",
         formData
       );
 

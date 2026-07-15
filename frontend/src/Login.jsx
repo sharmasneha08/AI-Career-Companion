@@ -33,8 +33,8 @@ function Login() {
         setEmail("");
         setPassword("");
       } else {
-        response = await axios.post(
-          "http://127.0.0.1:8000/login",
+       response = await axios.post(
+  "http://127.0.0.1:8000/login",
           {
             name: "",
             email,
@@ -50,16 +50,22 @@ function Login() {
 
         navigate("/dashboard");
       }
-    } catch (error) {
-      console.log(error);
-
-      if (error.response) {
-        toast.error(error.response.data.detail);
-      } else {
-        toast.error("Server not running");
-      }
     }
-  };
+    catch (error) {
+  console.log("FULL ERROR:", error);
+
+  if (error.response) {
+    toast.error(error.response.data.detail);
+    console.log("Response:", error.response);
+  } else if (error.request) {
+    toast.error("Cannot connect to backend");
+    console.log("Request:", error.request);
+  } else {
+    toast.error(error.message);
+    console.log(error.message);
+  }
+}
+};
 
   return (
     <div className="login-page">

@@ -29,7 +29,7 @@ function JobMatch() {
       setLoading(true);
 
       const response = await axios.post(
-  "http://127.0.0.1:8000/match_job",
+  "https://ai-career-companion-rxak.onrender.com/match_job",
   formData
 );
 

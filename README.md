@@ -234,7 +234,7 @@ uvicorn main:app --reload
 Backend:
 
 ```
-http://127.0.0.1:8000
+https://ai-career-companion-rxak.onrender.com
 ```
 
 ---

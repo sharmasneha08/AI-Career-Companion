@@ -323,7 +323,7 @@ const handleSubmit = async () => {
     setFeedback("🤖 AI is analyzing your answer...");
 
     const response = await axios.post(
-      "http://127.0.0.1:8000/mock-interview",
+      "https://ai-career-companion-rxak.onrender.com/mock-interview",
       currentAnswer
     );
 
@@ -370,7 +370,7 @@ console.log(
   questions.length
 );
         const finalResponse = await axios.post(
-          "http://127.0.0.1:8000/final-interview-report",
+          "https://ai-career-companion-rxak.onrender.comfinal-interview-report",
           {
             interview_data: updatedInterviewData,
           }
@@ -500,7 +500,7 @@ localStorage.setItem(
     try {
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/generate_questions",
+        "https://ai-career-companion-rxak.onrender.com/generate_questions",
         new URLSearchParams({
           role: role,
         }),

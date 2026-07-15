@@ -5,7 +5,8 @@ from fastapi import (
     Form,
     HTTPException,
 )
-
+from jose import jwt
+from datetime import datetime, timedelta
 from fastapi.middleware.cors import CORSMiddleware
 
 from pydantic import BaseModel
@@ -78,7 +79,30 @@ pwd_context = CryptContext(
     schemes=["bcrypt"],
     deprecated="auto",
 )
+SECRET_KEY = os.getenv("SECRET_KEY", "career_companion_secret")
 
+ALGORITHM = "HS256"
+
+ACCESS_TOKEN_EXPIRE_DAYS = 7
+# ===========================
+# CREATE JWT TOKEN
+# ===========================
+
+def create_access_token(data: dict):
+
+    to_encode = data.copy()
+
+    expire = datetime.utcnow() + timedelta(days=ACCESS_TOKEN_EXPIRE_DAYS)
+
+    to_encode.update({"exp": expire})
+
+    encoded_jwt = jwt.encode(
+        to_encode,
+        SECRET_KEY,
+        algorithm=ALGORITHM,
+    )
+
+    return encoded_jwt
 # ===========================
 # PYDANTIC MODELS
 # ===========================
@@ -152,6 +176,10 @@ def home():
 # REGISTER
 # ===========================
 
+# ===========================
+# REGISTER
+# ===========================
+
 @app.post("/register")
 def register(user: User):
 
@@ -171,16 +199,32 @@ def register(user: User):
     hashed_password = pwd_context.hash(user.password)
 
     users.insert_one({
+
         "name": user.name,
+
         "email": user.email,
-        "password": hashed_password
+
+        "password": hashed_password,
+
+        "resumeScore": 0,
+
+        "interviewsTaken": 0,
+
+        "jobMatches": 0,
+
+        "profileImage": "",
+
+        "joined": datetime.utcnow().strftime("%d %B %Y")
+
     })
 
     return {
-        "success": True,
-        "message": "Registration Successful"
-    }
 
+        "success": True,
+
+        "message": "Registration Successful"
+
+    }
 # ===========================
 # LOGIN
 # ===========================
@@ -189,13 +233,10 @@ def register(user: User):
 def login(user: User):
 
     existing = users.find_one({
-
         "email": user.email
-
     })
 
     if not existing:
-
         raise HTTPException(
             status_code=401,
             detail="Invalid Email"
@@ -205,22 +246,22 @@ def login(user: User):
         user.password,
         existing["password"]
     ):
-
         raise HTTPException(
             status_code=401,
             detail="Invalid Password"
         )
 
+    token = create_access_token(
+        {
+            "email": existing["email"]
+        }
+    )
+
     return {
-
         "success": True,
-
-        "token": "career_companion_token",
-
+        "token": token,
         "name": existing["name"],
-
         "email": existing["email"]
-
     }
 # ===========================
 # RESUME ANALYZER
@@ -530,7 +571,28 @@ def ai_career_assistant(
             status_code=500,
             detail=str(e)
         )
+# ===========================
+# GET USER PROFILE
+# ===========================
 
+@app.get("/profile/{email}")
+def get_profile(email: str):
+
+    user = users.find_one(
+        {"email": email},
+        {"_id": 0}
+    )
+
+    if not user:
+        raise HTTPException(
+            status_code=404,
+            detail="User not found"
+        )
+
+    return {
+        "success": True,
+        "profile": user
+    }
 
 # ===========================
 # BACKEND START MESSAGE
@@ -538,5 +600,5 @@ def ai_career_assistant(
 
 print("=" * 60)
 print("🚀 AI Career Companion Backend Started Successfully")
-print("🌐 API Running on https://ai-career-companion-bh9h.onrender.com")
+print("🌐 API Running on https://ai-career-companion-rxak.onrender.com")
 print("=" * 60)

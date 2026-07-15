@@ -145,8 +145,10 @@ def login(user: User):
     return {
 
 
-        "message":"Login successful",
-
-        "token":token
+         "success": True,
+    "message": "Login successful",
+    "token": token,
+    "name": existing_user["name"],
+    "email": existing_user["email"]
 
     }
